@@ -1,0 +1,18 @@
+.btn-cat:focus, .btn-cat:active {
+   outline: none !important;
+   box-shadow: none;
+}
+
+.cat-list-item {
+   padding: 0px !important;
+}
+
+.btn-cat {
+  height: 44px;
+  margin: 0px;
+  width: 190px;
+}
+
+#categories {
+   margin-right: 50px;
+}

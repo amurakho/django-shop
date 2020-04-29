@@ -1,0 +1,120 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block container %}
+{#    <div class="container" style="padding-top: 40px;">#}
+        <div class="row">
+            <div class="col"><img src="{{ product.get_main_image.image.url}}" style="width: 550px;">
+                <div style="margin-top: 30px;">
+                    <h4>Описание</h4>
+                    <p>{{ product.description }}</p>
+                </div>
+            </div>
+            <div class="col">
+                <div class="d-flex">
+                    <div class="d-block">
+                        <h5 class="d-inline">{{ product.name }}, {{ product.tablet_count }} {{ product.form }}</h5>
+                    </div>
+                    <div class="text-center d-block float-right d-xl-flex align-items-xl-center">
+                        <h6 style="background-color: #f9ffb3;font-size: 12px;">Артикул<br> {{ product.art }}&nbsp;</h6>
+                    </div>
+                </div>
+                <div class="d-flex" style="padding-top: 6px;">
+                    {% if product.in_stock %}
+                        <h6 class="d-block" style="font-weight: bold;color: rgb(40,167,69);font-size: 15px;font-family: 'Abril Fatface', cursive;padding-right: 8px;filter: saturate(157%) sepia(0%);">в наличии</h6>
+                    {% else %}
+                        <h6 class="d-block" style="font-weight: bold;color: darkred;font-size: 15px;font-family: 'Abril Fatface', cursive;padding-right: 8px;filter: saturate(157%) sepia(0%);">нет в наличии</h6>
+                    {% endif %}
+                    <h6 class="d-block" style="color: rgb(125,127,129);">{{ product.get_review_count }} отзывов</h6>
+                </div>
+                <h3>45 грн</h3>
+                <form class="d-flex" style="margin-top: 0px;" method="post" action="{% url 'to_bucket' %}">
+                    {% csrf_token %}
+                    <input name="product" type="hidden" value="{{ product.slug }}" >
+                    <input class="form-control" type="number" name="count" style="width: 200px;margin: 0px;padding-right: 14px;" value="1" min="1">
+                    <button class="btn btn-primary text-white border-white" type="submit" style="background-color: #b48484;margin-left: 8px;width: 101px;">Купить</button>
+                </form>
+                <div
+                    style="margin-top: 12px;">
+                    <ul class="nav nav-tabs">
+                        <li class="nav-item"><a class="nav-link text-success" role="tab" data-toggle="tab" href="#tab-1">Доставка</a></li>
+                        <li class="nav-item"><a class="nav-link active text-success" role="tab" data-toggle="tab" href="#tab-2">Оплата</a></li>
+                        <li class="nav-item"><a class="nav-link text-success" role="tab" data-toggle="tab" href="#tab-3">Гарантия</a></li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane" role="tabpanel" id="tab-1">
+                            <div class="border rounded-0 border-dark" style="background-color: #e0e0e0;padding-left: 10px;padding-top: 5px;padding-bottom: 5px;margin-top: 10px;">
+                                <h5><span style="text-decoration: underline;">Ускоряем обработку ваших заказов!</span></h5>
+                                <h6 style="font-size: 14px;">Внимательно заполяняйте все поля при оформлении. И мы отправим заказ сразу без перезвона оператора.<br><br>Дополнительные вопросы и консультации принимаем&nbsp;в телефонном режиме</h6>
+                            </div>
+                            <div class="table-responsive" style="margin-top: 15px;">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th><strong>Транспортная</strong><br><br> <strong>компания</strong></th>
+                                            <th><strong>Заказ менее</strong><br><br> <strong>1000 грн</strong></th>
+                                            <th><strong>Заказ более</strong><br><br> <strong>1000 грн</strong></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr></tr>
+                                        <tr>
+                                            <td><a href="#">НОВА ПОШТА</a></td>
+                                            <td>по тарифу</td>
+                                            <td>бесплатно</td>
+                                        </tr>
+                                        <tr>
+                                            <td><a href="#">УКРПОЧТА</a></td>
+                                            <td>по тарифу</td>
+                                            <td>бесплатно</td>
+                                        </tr>
+                                        <tr>
+                                            <td><a href="#">КУРЬЕР НП</a></td>
+                                            <td>по тарифу</td>
+                                            <td>по тарифу</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="tab-pane active" role="tabpanel" id="tab-2">
+                            <ul style="font-size: 14px;margin-top: 10px;">
+                                <li class="info-list">При оформлении заказа картой Visa/MasterCard через платежную систему LiqPay&nbsp;(нет комиссии)</li>
+                                <li class="info-list">Перевод на карту Приват (приват-приват нет комиссии, с других банков по тарифу)</li>
+                                <li class="info-list">Через личный кабинет в истории заказа с помощью&nbsp;LiqPay (нет комиссии)</li>
+                                <li class="info-list"><span style="text-decoration: underline;">Наложенный платеж, комиссию оплачивает получатель</span> (только для Новой почты, минимальный заказ 150 грн)</li>
+                                <li class="info-list">Оплата в кассе банка (комиссию рассчитывает банк)</li>
+                                <li class="info-list">Оплата через терминал (комиссия 5 грн или по тарифам банка)</li>
+                            </ul><a class="text-black-50" href="#"><em>Подробнее об оплате</em></a></div>
+                        <div class="tab-pane" role="tabpanel" id="tab-3">
+                            <ul style="font-size: 14px;margin-top: 10px;padding-top: 0px;padding-bottom: 0px;">
+                                <li class="info-list">Доставим улыбку вместе с заказом :)</li>
+                                <li class="info-list">Все посылки застрахованы!</li>
+                                <li class="info-list">Исключительно оригинальная продукция*</li>
+                                <li class="info-list">Товары только с хорошим сроком</li>
+                                <li class="info-list">Возврат средств при отказе</li>
+                                <li class="info-list">Постоянное развитие сервиса</li>
+                            </ul>
+                            <h6 style="font-size: 14px;">*В процессе производства поставщики периодически делают редизайн <br>упаковки без уведомления магазинов. Изображения актуализируются как <br>только нам поступает информация об их изменении.&nbsp;Изображения продукции <br>взяты
+                                от поставщиков либо из интернет-ресурса если поставщик не <br>предоставляет изображений.&nbsp;</h6><a class="text-black-50" href="#"><em>Подробнее о гарантии и возврате</em></a></div>
+                    </div>
+            </div>
+            <div style="padding-top: 40px;">
+                <h5>Отзывы про {{ product.name }}, {{ product.tablet_count }} {{ product.form }}</h5>
+                <hr>
+                <div class="d-flex"><img style="width: 150px;height: 150px;">
+                    <div style="padding-left: 19px;">
+                        <div>
+                            <h6 style="font-weight: bold;">Бабенко Наталья</h6>
+                            <h6>23.03.2020 в 09:10<br></h6>
+                        </div>
+                        <p style="font-size: 12px;">Очень понравилось. Огромная экономия времени на процедуре.<br>Особенно меня радует то, что теперь легче делать маникюр на правой руке (больше всего тратилось времени и нервов). Также стоит отметить, что&nbsp;после обработки гелем
+                            нет заусениц, кутикулы очень аккуратные становятся, даже когда отрастают. Рекомендую!!!&nbsp;&nbsp;</p>
+                    </div>
+                </div>
+                <form style="padding-top: 30px;margin-top: 0px;"><input class="border-dark form-control" type="text" placeholder="Введите имя и фамилию" style="margin-top: 0px;"><input class="border-dark form-control" type="text" placeholder="Введите номер заказа" style="margin-top: 10px;"><input class="border-dark form-control"
+                        type="text" placeholder="Сообщение" style="margin-top: 10px;height: 100px;"><button class="btn btn-primary border-white" type="button" style="background-color: #b48484;margin-top: 10px;">Отправить</button></form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

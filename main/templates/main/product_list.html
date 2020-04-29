@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load get_categories %}
+{% load static %}
+
+{% block container %}
+    <!-- sorting -->
+    {% include 'main/sorting.html' %}
+
+    <!-- categories -->
+    {% include 'main/category.html' %}
+
+    <!-- main block -->
+    {% include 'main/products_for_ajax.html' %}
+
+    <script type="text/javascript">
+        var search_value = "{{search_value}}";
+    </script>
+{% endblock %}

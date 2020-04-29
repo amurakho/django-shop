@@ -1,0 +1,22 @@
+{% load get_categories %}
+
+
+<!-- categories -->
+<div class="main-cat">
+    <h4>Категории:</h4>
+    <form method="get" id="categories" action="{% url 'filter' %}">
+{#        <ul class="list-group border rounded-0 d-inline-block float-left">#}
+        <ul class="list-group border rounded-0 d-inline-block float-left" style="padding: 0px;padding-right: 0px;margin-right: 30px;margin-left: -40px;">
+        {% get_categories as categories %}
+        {% for category in categories %}
+            <li class="list-group-item" style="padding-top: 0px;padding-right: 0px;padding-bottom: 0px;padding-left: 0px;">
+            <button value="{{ category.slug }}" type="submit" href="{% url 'filter' %}" class="btn shadow-none" type="button" style="height: 44px;margin: 0px;width: 190px;">
+                <span>{{ category }}</span>
+            </button></li>
+        {% endfor %}
+        </ul>
+    </form>
+</div>
+
+{# <ul class="list-group border rounded-0 d-inline-block float-left" style="padding: 0px;padding-right: 0px;margin-right: 30px;margin-left: -40px;">#}
+{#                <li class="list-group-item" style="padding-top: 0px;padding-right: 0px;padding-bottom: 0px;padding-left: 0px;"><button class="btn" type="button" style="height: 44px;margin: 0px;width: 190px;"><span>Для похудения</span></button></li>#}

@@ -1,0 +1,11 @@
+<!-- sorting -->
+<div class="text-right">
+    <div class="text-center d-inline-block">
+        <h6 class="d-inline-flex" style="font-size: 15px;padding-right: 15px;">Сортировка:</h6>
+            <form method="get" class="btn-group" id="sort" action="{% url 'filter' %}">
+                <button id='pressed' value="mean_review" type="submit" class="btn btn-dark sort-btn"  style="border-color: #b48484;font-size: 10px;color: rgb(0,0,0);background-color: #dcdcdc;">по популярности</button>
+                <button value="price" type="submit" class="btn btn-dark sort-btn" style="border-color: #b48484;font-size: 10px;color: rgb(0,0,0);background-color: #dcdcdc;">сначала дешевле</button>
+                <button value="-price" type="submit" class="btn btn-dark sort-btn" style="border-color: #b48484;font-size: 10px;color: rgb(0,0,0);background-color: #dcdcdc;">сначала дороже</button>
+            </form>
+    </div>
+</div>
