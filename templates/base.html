@@ -54,18 +54,26 @@
                                 <input alt="" type="image" value="submit" name="" src="{% static 'icons/search-outline.svg' %}" width="32" height="32" style="padding-left: 7px; ">
                         </form>
                     </div>
-                    <div class="col text-nowrap">
+                    <div class="col text-nowrap" style="padding-top: 2px;">
                         <div class="d-flex">
-{#                            <i class="fa fa-phone-square" style="font-size: 20px;color: #b48484;padding-top: 4px;"></i>#}
                             <img src="{% static 'icons/call-outline.svg' %}" alt="" width="25" height="25" title="Bootstrap">
-                            <h6 style="margin-bottom: 0px;padding-top: 4px;">&nbsp; 093-33-33-333</h6>
+                            <h6 style="margin-bottom: 0; font-size: 22px;">&nbsp; 093-33-33-333</h6>
                         </div>
                     </div>
-                    <div class="col">
-                        <div class="d-flex align-items-center">
-{#                            <i class="fa fa-shopping-cart d-xl-flex" style="font-size: 30px;color: #b48484;"></i>#}
+                    <div class="col" style="">
+                        <div class="d-flex align-items-center basket-container" id="basket-container">
                             <img src="{% static 'icons/basket-outline.svg' %}" alt="" width="25" height="25" title="Bootstrap">
-                            <h6 style="margin-bottom: 0px;padding-left: 8px;">1</h6>
+                            <h6 id='bucket-count' style="font-size: 20px; margin-bottom: 0px;padding-left: 8px;"><a href="">Корзина: <span>{{ products_in_basket|length }}</span></a></h6>
+                            {% if products_in_basket %}
+                                <div class="basket-items d-none" id="basket-items">
+                                    <ul>
+                                        {% for product in products_in_basket %}
+                                            <li>{{ product.product.name }} {{ product.count }} {{ product.full_price }} грн.</li>
+                                        {% endfor %}
+                                    </ul>
+                                    <a href="#">Оформить заказ</a>
+                                </div>
+                            {% endif %}
                         </div>
                     </div>
                 </div>

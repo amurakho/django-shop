@@ -16,3 +16,19 @@
 #categories {
    margin-right: 50px;
 }
+
+.basket-container {
+    position: relative;
+    /*width: 200px;*/
+    /*padding: 15px 10px;*/
+}
+
+.basket-items {
+    position: absolute;
+    top: 40px;
+    width: 100%;
+    z-index: 10;
+    padding: 10px 15px;
+    background-color: #f7e1e1;
+    width: 300px;
+}

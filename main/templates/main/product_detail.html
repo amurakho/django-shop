@@ -2,7 +2,6 @@
 {% load static %}
 
 {% block container %}
-{#    <div class="container" style="padding-top: 40px;">#}
         <div class="row">
             <div class="col"><img src="{{ product.get_main_image.image.url}}" style="width: 550px;">
                 <div style="margin-top: 30px;">
@@ -27,11 +26,11 @@
                     {% endif %}
                     <h6 class="d-block" style="color: rgb(125,127,129);">{{ product.get_review_count }} отзывов</h6>
                 </div>
-                <h3>45 грн</h3>
-                <form class="d-flex" style="margin-top: 0px;" method="post" action="{% url 'to_bucket' %}">
+                <h3>{{ product.price }}</h3>
+                <form id="buy-item" class="d-flex" style="margin-top: 0px;" method="post" action="{% url 'to_bucket' %}">
                     {% csrf_token %}
-                    <input name="product" type="hidden" value="{{ product.slug }}" >
-                    <input class="form-control" type="number" name="count" style="width: 200px;margin: 0px;padding-right: 14px;" value="1" min="1">
+                    <input id='product' name="product" type="hidden" value="{{ product.slug }}" >
+                    <input id='count' class="form-control" type="number" name="count" style="width: 200px;margin: 0px;padding-right: 14px;" value="1" min="1">
                     <button class="btn btn-primary text-white border-white" type="submit" style="background-color: #b48484;margin-left: 8px;width: 101px;">Купить</button>
                 </form>
                 <div

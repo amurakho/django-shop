@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     'django_celery_beat',
 
     'main',
-    'bucket',
+    'basket',
 ]
 
 MIDDLEWARE = [
@@ -69,6 +69,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+
+                'basket.context_processors.get_products_in_basket',
             ],
         },
     },

@@ -144,4 +144,4 @@ templates/index.html
 templates/untitled.html
 media/prod_images/*
 main/migrations/*
-bucket/migrations/*
+basket/migrations/*

@@ -48,6 +48,57 @@ $(document).ready(function () {
             }
         })
     }
+
+    function buy(e){
+        e.preventDefault();
+        $.ajax({
+            method: 'POST',
+            url: $(this).attr('action'),
+            data:{
+                'product': $('#product').val(),
+                'count': $('#count').val(),
+            },
+            dataType: 'json',
+            success: function (data) {
+                $('#bucket-count span').html('')
+                $('#bucket-count span').append(data.products_number)
+
+                if (!$('#basket-items').length){
+                    $('#basket-container').append(
+                        '<div class="basket-items d-none" id="basket-items">' +
+                            '<ul></ul>' +
+                            '<a href="#">Оформить заказ</a>' +
+                        '</div>'
+                    )
+                }
+                else{
+                    $('#basket-container ul').html('')
+                }
+                 $.each(data.products_in_bucket, function (key, val) {
+                        $('#basket-container ul').append(
+                            '<li>' + val.name + ' ' + val.count + ' ' + val.full_price + ' грн.' + '</li>'
+                        )
+                    })
+            }
+        })
+    }
+
+    $('#basket-container').on('click', function (e) {
+        e.preventDefault();
+        $('#basket-items').removeClass('d-none')
+    });
+    $('#basket-container').mouseover(function (e) {
+        $('#basket-items').removeClass('d-none')
+    });
+    $('#basket-container').mouseout(function (e) {
+        $('#basket-items').addClass('d-none')
+    });
+
     $('#sort').submit(filter);
     $('#categories').submit(filter);
+
+    $('#buy-item').submit(buy);
+
+
 })
+

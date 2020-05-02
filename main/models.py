@@ -136,6 +136,11 @@ class Bucket(models.Model):
             price += product.price
         return price
 
+    def delete(self, using=None, keep_parents=False):
+        print('e')
+        self.products.remove()
+        super().delete(using, keep_parents)
+
 
 class Order(models.Model):
     bucket = models.ForeignKey(Bucket, on_delete=models.SET_NULL, null=True)

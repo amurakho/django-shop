@@ -73,5 +73,11 @@ class ProductAdmin(admin.ModelAdmin):
 
 
 admin.site.register(models.Product, ProductAdmin)
+
 admin.site.register(models.Review)
+
 admin.site.register(models.Category)
+
+admin.site.register(models.Bucket)
+
+admin.site.register(models.ProductInBucket)

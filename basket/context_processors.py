@@ -1,0 +1,14 @@
+from main import models as product_models
+
+
+def get_products_in_basket(request):
+    session_key = request.session.session_key
+    if not session_key:
+        request.session.cycle_key()
+
+    try:
+        basket = product_models.Bucket.objects.get(session_key=session_key)
+    except:
+        return {'products_in_basket': None}
+    return {'products_in_basket': basket.products.all()}
+
