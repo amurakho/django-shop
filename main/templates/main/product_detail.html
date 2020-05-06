@@ -111,8 +111,19 @@
                             нет заусениц, кутикулы очень аккуратные становятся, даже когда отрастают. Рекомендую!!!&nbsp;&nbsp;</p>
                     </div>
                 </div>
-                <form style="padding-top: 30px;margin-top: 0px;"><input class="border-dark form-control" type="text" placeholder="Введите имя и фамилию" style="margin-top: 0px;"><input class="border-dark form-control" type="text" placeholder="Введите номер заказа" style="margin-top: 10px;"><input class="border-dark form-control"
-                        type="text" placeholder="Сообщение" style="margin-top: 10px;height: 100px;"><button class="btn btn-primary border-white" type="button" style="background-color: #b48484;margin-top: 10px;">Отправить</button></form>
+                <form class='comment-form' method="post" action="{% url 'product_detail' slug=product.slug%}">
+                    {% csrf_token %}
+                    {{ comment_form.non_field_errors }}
+
+                    {{ comment_form.author.errors }}
+                    {{ comment_form.author }}
+                    <div class="d-flex">
+                        {{ comment_form.order_number }}
+                        {{ comment_form.rating }}
+                    </div>
+                    {{ comment_form.text }}
+                        <button class="btn btn-primary border-white" type="button" style="background-color: #b48484;margin-top: 10px;">Отправить</button>
+                </form>
             </div>
         </div>
     </div>

@@ -51,7 +51,7 @@
                         {% get_search_form as categories %}
                         <form action="{% url 'search' %}" method="get" class="d-flex flex-fill">
                             {{ categories.value }}
-                                <input alt="" type="image" value="submit" name="" src="{% static 'icons/search-outline.svg' %}" width="32" height="32" style="padding-left: 7px; ">
+                            <input alt="" type="image" value="submit" name="" src="{% static 'icons/search-outline.svg' %}" width="32" height="32" style="padding-left: 7px; ">
                         </form>
                     </div>
                     <div class="col text-nowrap" style="padding-top: 2px;">
@@ -63,7 +63,7 @@
                     <div class="col" style="">
                         <div class="d-flex align-items-center basket-container" id="basket-container">
                             <img src="{% static 'icons/basket-outline.svg' %}" alt="" width="25" height="25" title="Bootstrap">
-                            <h6 id='bucket-count' style="font-size: 20px; margin-bottom: 0px;padding-left: 8px;"><a href="">Корзина: <span>{{ products_in_basket|length }}</span></a></h6>
+                            <h6 id='bucket-count' style="font-size: 20px; margin-bottom: 0px;padding-left: 8px;"><a href="">Корзина: <span>{{ full_count }}</span></a></h6>
                             {% if products_in_basket %}
                                 <div class="basket-items d-none" id="basket-items">
                                     <ul>

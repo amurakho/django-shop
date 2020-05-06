@@ -90,7 +90,7 @@ $(document).ready(function () {
     $('#basket-container').mouseover(function (e) {
         $('#basket-items').removeClass('d-none')
     });
-    $('#basket-container').mouseout(function (e) {
+    $('#basket-container #basket-items').mouseout(function (e) {
         $('#basket-items').addClass('d-none')
     });
 

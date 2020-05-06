@@ -12,8 +12,9 @@ from main import models as product_models
 def add_to_bucket(request):
     product_slug = request.POST.get('product')
     product_count = request.POST.get('count')
+
     if not request.POST or not product_slug or not request.is_ajax():
-        return Http404
+        raise Http404
 
     session_key = request.session.session_key
     bucket, created = product_models.Bucket.objects.get_or_create(session_key=session_key)
@@ -24,7 +25,6 @@ def add_to_bucket(request):
     if not created:
         product_in_bucket.count += int(product_count)
         product_in_bucket.save()
-
 
     products_in_basket = bucket.products.all()
     data = {'products_in_bucket': []}
@@ -37,7 +37,7 @@ def add_to_bucket(request):
         }
         count += item.count
         data['products_in_bucket'].append(item_data)
-    data['products_number'] =  count
+    data['products_number'] = count
     return JsonResponse(data)
 
     # product_in_bucket = bucket.products.filter(product__slug=product_slug)

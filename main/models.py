@@ -130,11 +130,13 @@ class Bucket(models.Model):
     session_key = models.CharField(max_length=100, null=True)
     products = models.ManyToManyField(ProductInBucket)
 
-    def make_full_price(self):
+    def make_full_data(self):
         price = 0
+        count = 0
         for product in self.products.all():
-            price += product.price
-        return price
+            price += product.product.price
+            count += product.count
+        return price, count
 
     def delete(self, using=None, keep_parents=False):
         print('e')
@@ -152,12 +154,14 @@ class Order(models.Model):
 
 
 class Review(models.Model):
-    rating = models.FloatField()
-    order_number = models.ForeignKey(Order, on_delete=models.SET_NULL, null=True)
+
+    rating = models.IntegerField()
+    order = models.ForeignKey(Order, on_delete=models.SET_NULL, null=True)
     text = models.TextField(max_length=1000)
     author = models.CharField(max_length=100)
     date = models.DateTimeField(auto_now=True)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    hover = models.BooleanField(default=False)
 
     def save(self, *args, **kwargs):
         all_reviews = self.product.get_all_reviews()
@@ -170,6 +174,3 @@ class Review(models.Model):
 
     def __str__(self):
         return self.text[:40] + '|' + self.author.username
-
-
-

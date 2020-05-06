@@ -1,11 +1,11 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect, reverse
 from django.views import generic
 from django.http import Http404
 from django.http import JsonResponse
 from django.core import serializers
 from django.template.loader import render_to_string
 
-from main import models
+from main import models, forms
 
 
 class ProductList(generic.ListView):
@@ -37,6 +37,22 @@ class ProductDetail(generic.DetailView):
     model = models.Product
     template_name = 'main/product_detail.html'
     context_object_name = 'product'
+    comment_form = forms.ReviewForm
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['comment_form'] = self.comment_form(initial={'rating': '4'})
+        return context
+
+    def post(self, request, *args, **kwargs):
+        form = self.comment_form(request.POST)
+        if form.is_valid():
+            obj = self.get_object()
+            form.instance.product = obj
+            order_id = form.cleaned_data['order_number']
+            form.instance.order = models.Order.objects.get(id=order_id)
+            form.save()
+        return redirect(reverse('product_detail', args=[obj.slug]))
 
 
 class SearchView(generic.ListView):

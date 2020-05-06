@@ -32,3 +32,29 @@
     background-color: #f7e1e1;
     width: 300px;
 }
+
+.comment-form {
+    padding-top: 30px;
+    margin-top: 0px;
+}
+
+.com-author {
+    margin-top: 10px
+}
+
+.com-order {
+    margin-top: 10px;
+    width: 260px;
+    margin-left: 0px;
+    margin-right: 10px;
+}
+
+.com-text {
+    margin-top: 10px;
+    height: 100px;
+}
+
+.com-rating {
+    margin-top: 10px;
+    width: 260px;
+}

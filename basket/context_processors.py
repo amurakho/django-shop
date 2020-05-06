@@ -10,5 +10,7 @@ def get_products_in_basket(request):
         basket = product_models.Bucket.objects.get(session_key=session_key)
     except:
         return {'products_in_basket': None}
-    return {'products_in_basket': basket.products.all()}
+    _, count = basket.make_full_data()
+    return {'products_in_basket': basket.products.all(),
+            'full_count': count}
 
