@@ -145,3 +145,4 @@ templates/untitled.html
 media/prod_images/*
 main/migrations/*
 basket/migrations/*
+conf.ini
