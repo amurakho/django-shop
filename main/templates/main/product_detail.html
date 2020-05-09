@@ -98,20 +98,22 @@
                                 от поставщиков либо из интернет-ресурса если поставщик не <br>предоставляет изображений.&nbsp;</h6><a class="text-black-50" href="#"><em>Подробнее о гарантии и возврате</em></a></div>
                     </div>
             </div>
-            <div style="padding-top: 40px;">
+            <div style="padding-top: 40px;" id="comment-block">
                 <h5>Отзывы про {{ product.name }}, {{ product.tablet_count }} {{ product.form }}</h5>
                 <hr>
-                <div class="d-flex"><img style="width: 150px;height: 150px;">
-                    <div style="padding-left: 19px;">
-                        <div>
-                            <h6 style="font-weight: bold;">Бабенко Наталья</h6>
-                            <h6>23.03.2020 в 09:10<br></h6>
+                {% for comment in product.get_all_reviews %}
+                    <div class="d-flex">
+                        <div style="padding-left: 19px;">
+                            <div>
+                                <h6 style="font-weight: bold;">{{ comment.author }}</h6>
+                                <h6>{{ comment.date|date }} в {{ comment.date|time }}<br></h6>
+                            </div>
+                            <p style="font-size: 12px;">{{ comment.text }}</p>
                         </div>
-                        <p style="font-size: 12px;">Очень понравилось. Огромная экономия времени на процедуре.<br>Особенно меня радует то, что теперь легче делать маникюр на правой руке (больше всего тратилось времени и нервов). Также стоит отметить, что&nbsp;после обработки гелем
-                            нет заусениц, кутикулы очень аккуратные становятся, даже когда отрастают. Рекомендую!!!&nbsp;&nbsp;</p>
                     </div>
-                </div>
-                <form class='comment-form' method="post" action="{% url 'product_detail' slug=product.slug%}">
+                {% endfor %}
+
+                <form class='comment-form' id="comment-form" method="post" action="{% url 'product_detail' slug=product.slug%}">
                     {% csrf_token %}
                     {{ comment_form.non_field_errors }}
 
@@ -122,7 +124,8 @@
                         {{ comment_form.rating }}
                     </div>
                     {{ comment_form.text }}
-                        <button class="btn btn-primary border-white" type="button" style="background-color: #b48484;margin-top: 10px;">Отправить</button>
+                    <input id='id_product' name="product" type="hidden" value="{{ product.id }}" >
+                    <button class="btn btn-primary border-white" type="submit" style="background-color: #b48484;margin-top: 10px;">Отправить</button>
                 </form>
             </div>
         </div>

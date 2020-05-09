@@ -72,9 +72,13 @@ class ProductAdmin(admin.ModelAdmin):
             self.save_formset(request, form, formset, change=change)
 
 
+class ReviewAdmin(admin.ModelAdmin):
+    list_display = ('order', 'author', 'rating', 'hover')
+
+
 admin.site.register(models.Product, ProductAdmin)
 
-admin.site.register(models.Review)
+admin.site.register(models.Review, ReviewAdmin)
 
 admin.site.register(models.Category)
 

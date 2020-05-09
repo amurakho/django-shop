@@ -178,6 +178,9 @@ class Order(models.Model):
     # flat_number = models.CharField(max_length=10, null=True, blank=True)
     bucket = models.ForeignKey(Bucket, on_delete=models.SET_NULL, null=True)
 
+    def __str__(self):
+        return str(self.id)
+
 
 class Review(models.Model):
 
@@ -197,6 +200,3 @@ class Review(models.Model):
         self.product.mean_review = statistics.mean([review.rating for review in all_reviews])
         self.product.save()
         return super().save(*args, **kwargs)
-
-    def __str__(self):
-        return self.text[:40] + '|' + self.author.username

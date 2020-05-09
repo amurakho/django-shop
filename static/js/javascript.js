@@ -110,7 +110,7 @@ $(document).ready(function () {
             remove_delivery_hide(['courier-delivery'])
             add_delivery_hide(['ukr-post', 'new-post'])
         }
-    }1
+    }
 
     $('#basket-container').on('click', function (e) {
         // e.preventDefault();
@@ -128,6 +128,7 @@ $(document).ready(function () {
 
     $('#buy-item').submit(buy);
 
-    $('#delivery-choice').change(delivery_choice)
+    $('#delivery-choice').change(delivery_choice);
+
 })
 
