@@ -1,0 +1,114 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block container %}
+    {% if not bucket %}
+        <h1>Ваша корзина пуста</h1>
+    {% else %}
+        <div class="row">
+            <!-- Order form -->
+            <div class="col">
+                <h2>Оформление заказа</h2>
+                <div class="border rounded div-order">
+                    <form class="form-order" method="post">
+                        {% csrf_token %}
+                        <h5 style="padding-bottom: 10px; font-weight: bold">Получатель заказа</h5>
+                         <div class="form-group d-flex">
+                            <label class="order-label">{{ form.name.label_tag }}</label>
+                            {{ form.name.errors }}
+                            {{ form.name }}
+                        </div>
+                         <div class="form-group d-flex">
+                            <label class="order-label">{{ form.surname.label_tag }}</label>
+                            {{ form.surname.errors }}
+                            {{ form.surname }}
+                        </div>
+                         <div class="form-group d-flex">
+                            <label class="order-label">{{ form.phone.label_tag }}</label>
+                            {{ form.phone.errors }}
+                            {{ form.phone }}
+                        </div>
+                         <div class="form-group d-flex">
+                            <label class="order-label">{{ form.email.label_tag }}</label>
+                            {{ form.email.errors }}
+                            {{ form.email }}
+                        </div>
+                         <hr>
+                         <div class="form-group d-flex">
+                            <label class="order-label">{{ form.delivery_type.label_tag }}</label>
+                            {{ form.delivery_type.errors }}
+                            {{ form.delivery_type }}
+                        </div>
+                         <div class="form-group d-flex">
+                            <label class="order-label">{{ form.city.label_tag }}</label>
+                            {{ form.city.errors }}
+                            {{ form.city }}
+                        </div>
+                        <div class="delivery-block" id="delivery-block">
+                            <div class="new-post" id="new-post">
+                                 <div class="form-group d-flex">
+                                    <label class="order-label">{{ form.post_number.label_tag }}</label>
+                                    {{ form.post_number.errors }}
+                                    {{ form.post_number }}
+                                </div>
+                            </div>
+                            <div class="courier-delivery d-none" id="courier-delivery">
+                                 <div class="form-group d-flex">
+                                    <label class="order-label">{{ form.street.label_tag }}</label>
+                                    {{ form.street.errors }}
+                                    {{ form.street }}
+                                </div>
+                                 <div class="form-group d-flex">
+                                    <label class="order-label">{{ form.house_number.label_tag }}</label>
+                                    {{ form.house_number.errors }}
+                                    {{ form.house_number }}
+                                </div>
+                             </div>
+                            <div class="ukr-post d-none" id="ukr-post">
+                                <div class="ukr-post" id="ukr-post">
+                                     <div class="form-group d-flex">
+                                        <label class="order-label">{{ form.index.label_tag }}</label>
+                                        {{ form.index.errors }}
+                                        {{ form.index }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+{#                        {{ form.basket }}#}
+                        <input id='id_bucket' name="bucket" type="hidden" value="{{ bucket.id }}" >
+                        <button class="btn btn-primary text-white border-white" type="submit" style="background-color: #b48484;margin-left: 100px; margin-bottom: 20px">Оформить заказ</button>
+                    </form>
+                </div>
+            </div>
+            <!-- Order list -->
+            <div class="col-xl-5">
+                <div class="border rounded div-order-list">
+                    <h5 style="padding-bottom: 10px; font-weight: bold">Ваш заказ</h5>
+                    <hr>
+                    {% for product in bucket.products.all %}
+                        <div class="d-flex"><img>
+                            <img src="{{ product.product.get_main_image.image.url}}" style="height: 60px;">
+                            <div style="padding-left: 12px;">
+                                    <h6><a href="{% url 'product_detail' slug=product.product.slug %}">{{ product.product.name }}</a></h6>
+                                    <div class="d-xl-flex">
+                                        <h6>{{ product.product.price }} грн. * {{ product.count }}</h6>
+                                        <div class="float-left flex-fill">
+                                            <h6 class="text-right" style="padding-left: 0px;">{{ product.full_price }} грн.</h6>
+                                        </div>
+                                    </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                    <hr>
+                    <div class="d-flex">
+                        <h6>Доставка</h6>
+                        <h6 class="d-xl-flex flex-fill justify-content-xl-end font-weight-bold">По тарифам перевозчика</h6>
+                    </div>
+                    <hr>
+                    <h5 class="d-xl-flex justify-content-xl-end font-weight-bold">Итого: {{ bucket.get_bucket_price }} грн</h5>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+{% endblock %}

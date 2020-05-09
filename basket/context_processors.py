@@ -7,9 +7,10 @@ def get_products_in_basket(request):
         request.session.cycle_key()
 
     try:
-        basket = product_models.Bucket.objects.get(session_key=session_key)
+        basket = product_models.Bucket.objects.get(session_key=session_key, hidden=False)
     except:
-        return {'products_in_basket': None}
+        return {'products_in_basket': None,
+                'full_count': 0}
     _, count = basket.make_full_data()
     return {'products_in_basket': basket.products.all(),
             'full_count': count}

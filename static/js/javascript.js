@@ -83,8 +83,37 @@ $(document).ready(function () {
         })
     }
 
+    function remove_delivery_hide(id_list) {
+        id_list.forEach((element) => {
+            $('#'+element).removeClass('d-none')
+            $('#'+element + ' input').prop('required', true);
+        })
+    }
+
+    function add_delivery_hide(id_list) {
+        id_list.forEach((element) => {
+            $('#'+element).addClass('d-none')
+            $('#'+element + ' input').prop('required', false);
+        })
+    }
+
+    function delivery_choice(e){
+        if (this.value == 'new_post'){
+            remove_delivery_hide(['new-post'])
+            add_delivery_hide(['ukr-post', 'courier-delivery'])
+        }
+        else if (this.value == 'ukr_post'){
+            remove_delivery_hide(['ukr-post', 'courier-delivery'])
+            add_delivery_hide(['new-post'])
+        }
+        else if (this.value == 'new_post_courier'){
+            remove_delivery_hide(['courier-delivery'])
+            add_delivery_hide(['ukr-post', 'new-post'])
+        }
+    }1
+
     $('#basket-container').on('click', function (e) {
-        e.preventDefault();
+        // e.preventDefault();
         $('#basket-items').removeClass('d-none')
     });
     $('#basket-container').mouseover(function (e) {
@@ -99,6 +128,6 @@ $(document).ready(function () {
 
     $('#buy-item').submit(buy);
 
-
+    $('#delivery-choice').change(delivery_choice)
 })
 

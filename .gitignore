@@ -142,6 +142,7 @@ dump.rdb
 templates/assets
 templates/index.html
 templates/untitled.html
+templates/untitled-1.html
 media/prod_images/*
 main/migrations/*
 basket/migrations/*

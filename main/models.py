@@ -3,6 +3,12 @@ from django.contrib.auth.models import User
 from uuslug import slugify
 from django_countries.fields import CountryField
 
+DELIVERY_CHOICES = (
+    ('new_post', 'Нова пошта'),
+    ('new_post_courier', 'Курьерская доставка "Нова пошта"'),
+    ('ukr_post', 'Укрпошта'),
+)
+
 
 class Promotion(models.Model):
     start_date = models.DateField()
@@ -69,7 +75,7 @@ class Product(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.slug:
-            self.slug = slugify(self.name)
+            self.slug = slugify(self.name[:30])
         return super().save(*args, **kwargs)
 
 
@@ -129,28 +135,48 @@ class ProductInBucket(models.Model):
 class Bucket(models.Model):
     session_key = models.CharField(max_length=100, null=True)
     products = models.ManyToManyField(ProductInBucket)
+    hidden = models.BooleanField(default=False)
 
-    def make_full_data(self):
+    def get_bucket_price(self):
         price = 0
-        count = 0
         for product in self.products.all():
             price += product.product.price
+        return price
+
+    def get_full_count(self):
+        count = 0
+        for product in self.products.all():
             count += product.count
+        return count
+
+    def make_full_data(self):
+        price = self.get_bucket_price()
+        count = self.get_full_count()
         return price, count
 
     def delete(self, using=None, keep_parents=False):
-        print('e')
         self.products.remove()
         super().delete(using, keep_parents)
 
+    def make_hidden(self):
+        self.hidden = True
+        return self.save()
+
 
 class Order(models.Model):
-    bucket = models.ForeignKey(Bucket, on_delete=models.SET_NULL, null=True)
-    city = models.CharField(max_length=50)
-    post_number = models.IntegerField()
-    phone = models.CharField(max_length=10)
+
     name = models.CharField(max_length=15)
     surname = models.CharField(max_length=30)
+    city = models.CharField(max_length=50)
+    phone = models.CharField(max_length=10)
+    email = models.EmailField(null=True, blank=True)
+    delivery_type = models.CharField(choices=DELIVERY_CHOICES, max_length=50)
+    post_number = models.IntegerField(null=True, blank=True)
+    index = models.IntegerField(null=True, blank=True)
+    street = models.CharField(max_length=100, null=True, blank=True)
+    house_number = models.CharField(max_length=5, null=True, blank=True)
+    # flat_number = models.CharField(max_length=10, null=True, blank=True)
+    bucket = models.ForeignKey(Bucket, on_delete=models.SET_NULL, null=True)
 
 
 class Review(models.Model):

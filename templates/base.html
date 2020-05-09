@@ -2,7 +2,6 @@
 {% load get_search_form %}
 {% load static %}
 
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -63,7 +62,11 @@
                     <div class="col" style="">
                         <div class="d-flex align-items-center basket-container" id="basket-container">
                             <img src="{% static 'icons/basket-outline.svg' %}" alt="" width="25" height="25" title="Bootstrap">
-                            <h6 id='bucket-count' style="font-size: 20px; margin-bottom: 0px;padding-left: 8px;"><a href="">Корзина: <span>{{ full_count }}</span></a></h6>
+                            <h6 id='bucket-count' style="font-size: 20px; margin-bottom: 0px;padding-left: 8px;">
+                                <a href="{% url 'order_creation' %}">Корзина:
+                                <span>{{ full_count }}</span>
+                                </a>
+                            </h6>
                             {% if products_in_basket %}
                                 <div class="basket-items d-none" id="basket-items">
                                     <ul>
@@ -71,7 +74,7 @@
                                             <li>{{ product.product.name }} {{ product.count }} {{ product.full_price }} грн.</li>
                                         {% endfor %}
                                     </ul>
-                                    <a href="#">Оформить заказ</a>
+                                    <a href="{% url 'order_creation' %}">Оформить заказ</a>
                                 </div>
                             {% endif %}
                         </div>

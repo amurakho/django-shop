@@ -6,6 +6,7 @@ from django.http import JsonResponse
 import json
 
 from main import models as product_models
+from basket import forms
 
 
 @csrf_exempt
@@ -40,25 +41,23 @@ def add_to_bucket(request):
     data['products_number'] = count
     return JsonResponse(data)
 
-    # product_in_bucket = bucket.products.filter(product__slug=product_slug)
-    # if created or not product_in_bucket:
-    #     product = get_object_or_404(product_models.Product, slug=product_slug)
-    #     new_product_in_bucket = product_models.ProductInBucket.objects.create(product=product,
-    #                                                                           count=product_count)
-    #     bucket.products.add(new_product_in_bucket)
-    # else:
-    #     product_in_bucket[0].count += int(product_count)
-    #     product_in_bucket[0].save()
-    #
-    # return JsonResponse(product_in_bucket.dict())
 
-    # return redirect(reverse('product_detail', args=[product_slug]))
-#
-# class GetFromBucket(generic.ListView):
-#     model = product_models.Bucket
-#     template_name = ''
-#     context_object_name = 'products_in_bucket'
-#
-#     def get_context_data(self, *, object_list=None, **kwargs):
-#         session_key = self.request.session.get('basket', [])
-#         if not session_key
+class CreateOrder(generic.CreateView):
+    form_class = forms.OrderCreationForm
+    template_name = 'basket/order_creation.html'
+    model = product_models.Order
+    success_url = '/'
+
+    def form_valid(self, form):
+        bucket_id = self.request.POST.get('bucket')
+        bucket = get_object_or_404(product_models.Bucket, id=bucket_id)
+        bucket.make_hidden()
+        form.instance.bucket = bucket
+        return super().form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        session_key = self.request.session.session_key
+        bucket = get_object_or_404(product_models.Bucket, session_key=session_key)
+        context['bucket'] = bucket
+        return context

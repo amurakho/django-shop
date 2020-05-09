@@ -81,3 +81,5 @@ admin.site.register(models.Category)
 admin.site.register(models.Bucket)
 
 admin.site.register(models.ProductInBucket)
+
+admin.site.register(models.Order)
