@@ -162,10 +162,6 @@ class Bucket(models.Model):
         self.hidden = True
         return self.save()
 
-    def remove_product(self, product_id):
-        product = self.products.get(id=product_id)
-        product.delete()
-
 
 class Order(models.Model):
 

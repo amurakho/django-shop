@@ -1,4 +1,4 @@
-from django.shortcuts import get_object_or_404, Http404, redirect
+from django.shortcuts import get_object_or_404, Http404, redirect,reverse
 from django.views import generic
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
@@ -20,7 +20,7 @@ def add_to_bucket(request):
 
     product = get_object_or_404(product_models.Product, slug=product_slug)
     product_in_bucket, created = bucket.products.get_or_create(product=product,
-                                                                defaults={'count': product_count})
+                                                            defaults={'count': product_count})
     if not created:
         product_in_bucket.count += int(product_count)
         product_in_bucket.save()
@@ -30,6 +30,7 @@ def add_to_bucket(request):
     count = 0
     for item in products_in_basket:
         item_data = {
+            'url': reverse('remove_from_bucket', args=[item.id]),
             'count': item.count,
             'full_price': item.full_price,
             'name': item.product.name
@@ -64,5 +65,9 @@ class CreateOrder(generic.CreateView):
 def remove_from_bucket(request, pk):
     session_key = request.session.session_key
     bucket = get_object_or_404(product_models.Bucket, session_key=session_key)
-    bucket.remove_product(pk)
+    try:
+        product = bucket.products.get(id=pk)
+    except:
+        raise Http404
+    product.delete()
     return redirect(request.META.get('HTTP_REFERER'))

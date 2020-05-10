@@ -51,6 +51,8 @@ $(document).ready(function () {
 
     function buy(e){
         e.preventDefault();
+        var tmp = $(this).attr('action')
+
         $.ajax({
             method: 'POST',
             url: $(this).attr('action'),
@@ -74,9 +76,14 @@ $(document).ready(function () {
                 else{
                     $('#basket-container ul').html('')
                 }
-                 $.each(data.products_in_bucket, function (key, val) {
+                console.log(tmp)
+                $.each(data.products_in_bucket, function (key, val) {
+                        // var tmp = $(this).attr('action')
                         $('#basket-container ul').append(
-                            '<li>' + val.name + ' ' + val.count + ' ' + val.full_price + ' грн.' + '</li>'
+                            '<div class="d-flex">' +
+                            '<h6>' + val.name + ' ' + val.count + ' ' + val.full_price +' грн.' + '</h6>' +
+                            '<a href="'+val.url+'">X</a>' +
+                            '</div>'
                         )
                     })
             }
