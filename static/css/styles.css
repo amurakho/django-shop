@@ -84,5 +84,9 @@
 }
 
 .checked {
-  color: orange;
+  color: #b48484;
 }
+
+.block-anchor{
+  color:black;
+ }

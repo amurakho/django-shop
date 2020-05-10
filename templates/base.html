@@ -73,7 +73,12 @@
                                 <div class="basket-items d-none" id="basket-items">
                                     <ul>
                                         {% for product in products_in_basket %}
-                                            <li>{{ product.product.name }} {{ product.count }} {{ product.full_price }} грн.</li>
+                                            <li>
+                                                <div class="d-flex">
+                                                    <h6>{{ product.product.name }} {{ product.count }} {{ product.full_price }} грн.</h6>
+                                                    <a href="{% url 'remove_from_bucket'  pk=product.id%}">X</a>
+                                                </div>
+                                            </li>
                                         {% endfor %}
                                     </ul>
                                     <a href="{% url 'order_creation' %}">Оформить заказ</a>

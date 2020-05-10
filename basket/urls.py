@@ -6,4 +6,5 @@ urlpatterns = [
     # path('', views.GetFromBucket.as_view(), name='basket'),
     path('add/', views.add_to_bucket, name='to_bucket'),
     path('order/', views.CreateOrder.as_view(), name='order_creation'),
+    path('remove/<pk>', views.remove_from_bucket, name='remove_from_bucket'),
 ]

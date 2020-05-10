@@ -140,7 +140,7 @@ class Bucket(models.Model):
     def get_bucket_price(self):
         price = 0
         for product in self.products.all():
-            price += product.product.price
+            price += product.make_full_price()
         return price
 
     def get_full_count(self):
@@ -161,6 +161,10 @@ class Bucket(models.Model):
     def make_hidden(self):
         self.hidden = True
         return self.save()
+
+    def remove_product(self, product_id):
+        product = self.products.get(id=product_id)
+        product.delete()
 
 
 class Order(models.Model):

@@ -1,4 +1,5 @@
 {% load get_categories %}
+{% load add_star_rating %}
 {% load static %}
 
 <!-- main block -->
@@ -6,30 +7,30 @@
     {% if products %}
         <div class="row" style="padding-top: 16px;">
              {% for product in products %}
-                 <a href="{% url 'product_detail' slug=product.slug %}">
-                    <div class="col-lg-4 col-xl-3">
+                <div class="col-lg-4 col-xl-3 text-center border rounded product-block">
+                 <a href="{% url 'product_detail' slug=product.slug %}" class="block-anchor">
                         <div class="text-center">
-                            <img src="{{ product.get_main_image.image.url }}" width="200" alt="">
+                            <img src="{{ product.get_main_image.image.url }}" width="100" alt="">
                         </div>
                         <h3>Prom: {{ product.promotion.proc }}</h3>
-                        <h3>Mean rev: {{ product.mean_review }}</h3>
-                        <h5><strong>{{ product.name }}</strong></h5>
+                        <h6>{{ product.mean_review|add_star_rating }}</h6>
+                        <h6><strong>{{ product.name }}</strong></h6>
                         <div>
-                            <h6 class="d-inline-block" style="font-size: 12px;">Артикул: {{ product.art }}</h6>
-                            <h6 class="float-right">
-                                <img src="{% static 'icons/chatbox-ellipses-outline.svg' %}" alt="" width="32" height="32" title="Bootstrap" style="padding-left: 7px;">
-                                167
+                            <h6 class="d-inline-block float-left" style="font-size: 12px;">Артикул: {{ product.art }}</h6>
+                             <h6 class="text-right" style="font-size: 10px;">
+                                <img src="{% static 'icons/chatbox-ellipses-outline.svg' %}" alt="" width="22" height="22" title="Bootstrap" style="">
+                                {{ product.get_review_count }}
                             </h6>
                         </div>
-                        <h6>{{ product.description|truncatechars:100 }}</h6>
+                        <h6 style="font-size: 13px">{{ product.description|truncatechars:50 }}</h6>
                          {% if  product.promotion %}
                             <h6 style="text-decoration: line-through">{{ product.price }} грн.</h6>
                             <h5>With prom: {{ product.price_with_promotion }} грн.</h5>
                          {% else %}
                              <h5>{{ product.price }} грн.</h5>
                         {% endif %}
-                    </div>
                  </a>
+                </div>
                 <br>
             {% endfor %}
         </div>

@@ -1,4 +1,4 @@
-from django.shortcuts import get_object_or_404, Http404
+from django.shortcuts import get_object_or_404, Http404, redirect
 from django.views import generic
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
@@ -59,3 +59,10 @@ class CreateOrder(generic.CreateView):
         bucket = get_object_or_404(product_models.Bucket, session_key=session_key)
         context['bucket'] = bucket
         return context
+
+
+def remove_from_bucket(request, pk):
+    session_key = request.session.session_key
+    bucket = get_object_or_404(product_models.Bucket, session_key=session_key)
+    bucket.remove_product(pk)
+    return redirect(request.META.get('HTTP_REFERER'))
