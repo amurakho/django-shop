@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load add_star_rating %}
 
 {% block container %}
         <div class="row">
@@ -106,7 +107,8 @@
                         <div style="padding-left: 19px;">
                             <div>
                                 <h6 style="font-weight: bold;">{{ comment.author }}</h6>
-                                <h6>{{ comment.date|date }} в {{ comment.date|time }}<br></h6>
+                                {{ comment.rating|add_star_rating }}
+                                <h6>{{ comment.date|date:'d.m.Y' }} в {{ comment.date|time:'H:i' }}<br></h6>
                             </div>
                             <p style="font-size: 12px;">{{ comment.text }}</p>
                         </div>
@@ -115,16 +117,15 @@
 
                 <form class='comment-form' id="comment-form" method="post" action="{% url 'product_detail' slug=product.slug%}">
                     {% csrf_token %}
-                    {{ comment_form.non_field_errors }}
+                    <h5 style="color: #491217">{{ comment_form.non_field_errors }}</h5>
 
-                    {{ comment_form.author.errors }}
+                    <h4 style="color: #491217">{{ comment_form.author.errors }}</h4>
                     {{ comment_form.author }}
                     <div class="d-flex">
                         {{ comment_form.order_number }}
                         {{ comment_form.rating }}
                     </div>
                     {{ comment_form.text }}
-                    <input id='id_product' name="product" type="hidden" value="{{ product.id }}" >
                     <button class="btn btn-primary border-white" type="submit" style="background-color: #b48484;margin-top: 10px;">Отправить</button>
                 </form>
             </div>

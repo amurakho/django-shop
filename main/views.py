@@ -5,6 +5,7 @@ from django.http import JsonResponse
 from django.core import serializers
 from django.template.loader import render_to_string
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib import messages
 
 from main import models, forms
 
@@ -50,10 +51,9 @@ class ProductDetail(generic.DetailView):
         obj = self.get_object()
         if form.is_valid():
             form.instance.product = obj
-            order_id = form.cleaned_data['order_number']
-            form.instance.order = models.Order.objects.get(id=order_id)
             form.save()
-        return redirect(reverse('product_detail', args=[obj.slug]))
+        return self.render_to_response({'comment_form': form,
+                                        self.context_object_name: obj})
 
 
 class SearchView(generic.ListView):
@@ -70,33 +70,3 @@ class SearchView(generic.ListView):
         context['products'] = queryset
         context['search_value'] = search_value
         return context
-
-
-# @csrf_exempt
-# def add_comment(request, slug):
-#     if not request.POST or not request.is_ajax():
-#         print(request.is_ajax())
-#         raise Http404
-#
-#     order_id = request.POST.get('order_id')
-#     order = models.Order.objects.filter(id=order_id)
-#
-#     if not order:
-#         response = JsonResponse({"error": "К сожалению мы не смогли найти Ваш заказ."})
-#         response.status_code = 403
-#         return response
-#
-#     product = get_object_or_404(models.Product, slug=slug)
-#     comment = models.Review.objects.create(rating=int(request.POST.get('rating')),
-#                                            order=order[0],
-#                                            text=request.POST.get('text'),
-#                                            author=request.POST.get('name'),
-#                                            product=product
-#                                            )
-#     data = {
-#         'rating': comment.rating,
-#         'text': comment.text,
-#         'author': comment.author,
-#         'data': comment.date,
-#     }
-#     return JsonResponse(data)

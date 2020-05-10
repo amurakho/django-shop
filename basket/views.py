@@ -1,9 +1,7 @@
-from django.shortcuts import render, get_object_or_404, redirect, reverse, Http404
+from django.shortcuts import get_object_or_404, Http404
 from django.views import generic
-import random
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
-import json
 
 from main import models as product_models
 from basket import forms

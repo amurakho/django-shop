@@ -82,3 +82,7 @@
 .order-input {
     width: 400px !important;
 }
+
+.checked {
+  color: orange;
+}
