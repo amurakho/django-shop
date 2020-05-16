@@ -84,8 +84,13 @@
 }
 
 .checked {
-  color: #b48484;
+  color: #a67272;
 }
+
+.not-checked {
+    color: #b3b7bb;
+}
+
 
 .block-anchor{
   color:black;

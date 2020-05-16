@@ -12,10 +12,10 @@
                         <div class="text-center">
                             <img src="{{ product.get_main_image.image.url }}" width="100" alt="">
                         </div>
-                        <h3>Prom: {{ product.promotion.proc }}</h3>
+{#                        <h3>Prom: {{ product.promotion.proc }}</h3>#}
                         <h6>{{ product.mean_review|add_star_rating }}</h6>
                         <h6><strong>{{ product.name }}</strong></h6>
-                        <div>
+                        <div style="color: #6c757d">
                             <h6 class="d-inline-block float-left" style="font-size: 12px;">Артикул: {{ product.art }}</h6>
                              <h6 class="text-right" style="font-size: 10px;">
                                 <img src="{% static 'icons/chatbox-ellipses-outline.svg' %}" alt="" width="22" height="22" title="Bootstrap" style="">

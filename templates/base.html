@@ -96,22 +96,25 @@
         {% block container %}
         {% endblock %}
      </div>
-    <hr>
 
     <!-- Viewered -->
-    <hr>
-    <div class="container-fluid">
-        <div class="row" style="padding-left: 20px;padding-right: 20px;">
-            <div class="col-md-4 col-lg-3 col-xl-3">
-                <h3>Просмотренные товары:</h3>
-            </div>
-            <div class="col-md-2 col-xl-1 d-table" style="padding-left: 15px;">
-                <div class="text-center"><img src="assets/img/91932234_778355496025669_2808737847979278336_n.jpg" width="100"></div>
-                <h6 style="font-size: 13px;">Тестовое название, тестовая компания, 100 мл, 30 таблеток</h6>
-                <h6>45 грн<br></h6>
+    {% if viewed %}
+        <hr>
+        <div class="container-fluid">
+            <div class="row" style="padding-left: 20px;padding-right: 20px;">
+                <div class="col-md-4 col-lg-3 col-xl-3">
+                    <h3>Просмотренные товары:</h3>
+                </div>
+                {% for product in viewed%}
+                    <div class="col-md-2 col-xl-1 d-table" style="padding-left: 15px;">
+                        <div class="text-center"><img src="{{ product.get_main_image.image.url }}" width="100"></div>
+                        <h6 style="font-size: 13px;">{{ product.description|truncatechars:50 }}</h6>
+                        <h6>{{ product.price }}<br></h6>
+                    </div>
+                {% endfor %}
             </div>
         </div>
-    </div>
+    {% endif %}
 
     <!-- Footer -->
     <div class="footer-clean" style="background-color: rgb(222,222,222);">
@@ -150,8 +153,6 @@
             </div>
         </footer>
     </div>
-
-{#    <script type="text/javascript" src="assets/js/jquery.min.js"></script>#}
     <script type="text/javascript" src="http://code.jquery.com/jquery-3.5.0.min.js"></script>
     <script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
     <script type="text/javascript" src = "{% static 'js/javascript.js' %}"></script>

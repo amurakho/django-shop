@@ -14,7 +14,7 @@ class ProductList(generic.ListView):
     model = models.Product
     template_name = 'main/product_list.html'
     context_object_name = 'products'
-    ordering = 'mean_review'
+    ordering = '-mean_review'
 
 
 def filter_view(request):
@@ -40,6 +40,16 @@ class ProductDetail(generic.DetailView):
     template_name = 'main/product_detail.html'
     context_object_name = 'product'
     comment_form = forms.ReviewForm
+
+    def get(self, request, *args, **kwargs):
+        response = super().get(request, *args, **kwargs)
+        bucket = request.session.get('bucket', [])
+        if self.object not in bucket:
+            if len(bucket) == 5:
+                del bucket[0]
+            bucket.append(self.object.slug)
+        request.session['bucket'] = bucket
+        return response
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
